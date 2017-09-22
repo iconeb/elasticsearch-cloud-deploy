@@ -11,4 +11,4 @@ chown kibana:kibana * -R
 
 systemctl daemon-reload
 systemctl enable kibana.service
-systemctl start kibana
+#systemctl start kibana
