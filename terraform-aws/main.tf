@@ -9,7 +9,7 @@ provider "aws" {
 resource "aws_security_group" "elasticsearch_security_group" {
   name = "elasticsearch-${var.es_cluster}-security-group"
   description = "Elasticsearch ports with ssh"
-  vpc_id = "${var.vpc_id}"
+  vpc_id = "${module.vpc.vpc_id}"
 
   tags {
     Name = "${var.es_cluster}-elasticsearch"
@@ -51,7 +51,7 @@ resource "aws_security_group" "elasticsearch_security_group" {
 resource "aws_security_group" "elasticsearch_clients_security_group" {
   name = "elasticsearch-${var.es_cluster}-clients-security-group"
   description = "Kibana HTTP access from outside"
-  vpc_id = "${var.vpc_id}"
+  vpc_id = "${module.vpc.vpc_id}"
 
   tags {
     Name = "${var.es_cluster}-kibana"
@@ -88,8 +88,8 @@ resource "aws_elb" "es_client_lb" {
 
   name            = "${format("%s-client-lb", var.es_cluster)}"
   security_groups = ["${aws_security_group.elasticsearch_clients_security_group.id}"]
-  subnets         = ["${var.vpc_subnets}"]
-  internal        = true
+  subnets         = ["${module.vpc.public_subnets}"]
+  internal        = false
 
   cross_zone_load_balancing   = true
   idle_timeout                = 400
@@ -99,7 +99,7 @@ resource "aws_elb" "es_client_lb" {
   listener {
     instance_port     = 8080
     instance_protocol = "http"
-    lb_port           = 80
+    lb_port           = 8080
     lb_protocol       = "http"
   }
 
