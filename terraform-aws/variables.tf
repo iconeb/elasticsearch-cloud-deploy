@@ -13,22 +13,21 @@ variable "vpc_cidr" {
   default = "10.0.0.0/16"
 }
 
-variable "vpc_id" {
-  description = "VPC ID to create the Elasticsearch cluster in"
-  type = "string"
-  default = ""
-}
-
-
-variable "vpc_subnets" {
-  description = "VPC subnet IDs to create the Elasticsearch cluster in"
-  type = "list"
-  default = [""]
-}
-
 variable "availability_zones" {
   description = "AWS region to launch servers."
   default = "us-east-1a,us-east-1b,us-east-1d"
+}
+
+variable "public_subnets_cidrs" {
+  description = "VPC public subnet cidrs to create the ELB Elasticsearch cluster in"
+  type = "list"
+  default = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+}
+
+variable "private_subnets_cidrs" {
+  description = "VPC public subnet cidrs to create the Elasticsearch cluster in"
+  type = "list"
+  default = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
 }
 
 variable "key_name" {

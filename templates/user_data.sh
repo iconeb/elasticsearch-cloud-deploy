@@ -44,7 +44,9 @@ sudo sed -i 's/#MAX_LOCKED_MEMORY=.*$/MAX_LOCKED_MEMORY=unlimited/' /etc/init.d/
 sudo sed -i 's/#MAX_LOCKED_MEMORY=.*$/MAX_LOCKED_MEMORY=unlimited/' /etc/default/elasticsearch
 sudo sed -i "s/^-Xms2g/-Xms${heap_size}/" /etc/elasticsearch/jvm.options
 sudo sed -i "s/^-Xmx2g/-Xmx${heap_size}/" /etc/elasticsearch/jvm.options
-sudo sed -i "s/#LimitMEMLOCK=infinity/LimitMEMLOCK=infinity/" /usr/lib/systemd/system/elasticsearch.service
+#sudo sed -i "s/#LimitMEMLOCK=infinity/LimitMEMLOCK=infinity/" /usr/lib/systemd/system/elasticsearch.service
+mkdir -p /etc/systemd/system/elasticsearch.service.d
+echo -e "[Service]\nLimitMEMLOCK=infinity" | sudo tee /etc/systemd/system/elasticsearch.service.d/memlock.conf
 
 # Storage
 sudo mkdir -p ${elasticsearch_logs_dir}

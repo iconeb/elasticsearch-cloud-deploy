@@ -1,0 +1,24 @@
+### MANDATORY ###
+es_cluster                = "ElasticCluster"
+aws_region                = "eu-central-1"
+vpc_cidr                  = "10.0.0.0/16"
+availability_zones        = "eu-central-1a,eu-central-1b,eu-central-1c"
+public_subnets_cidrs      = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+private_subnets_cidrs     = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
+key_name                  = "elasticsearch"
+environment               = "default"
+data_instance_type        = "m4.large" #"c4.2xlarge"
+master_instance_type      = "m4.large"
+elasticsearch_volume_size = "10" # "100"
+volume_name               = "/dev/xvdh"
+volume_encryption         = false # true
+elasticsearch_data_dir    = "/opt/elasticsearch/data"
+elasticsearch_logs_dir    = "/var/log/elasticsearch"
+data_heap_size            = "3g" #"7g"
+master_heap_size          = "2g"
+masters_count             = "3" # "0"
+datas_count               = "2" # "0"
+clients_count             = "1" # "0"
+security_enabled          = "true" # "false"
+client_user               = "esuser"
+client_pwd                = "espassword"
