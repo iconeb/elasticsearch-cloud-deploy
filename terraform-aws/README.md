@@ -24,17 +24,18 @@ aws ec2 describe-availability-zones
 
 ## VPC
 
-Create a VPC, or use existing. You will need the VPC ID and private subnets IDs in it. 
+Plan will create a VPC with private subnets for all the nodes and public subnets for loadbalancer and NAT gateways. 
 
 ## Configurations
 
-Edit `variables.tf` to specify the following:
+Edit `terraform.tfvars` to specify the following:
 
-* `aws_region` - the region where to launch the cluster in.
-* `availability_zones` - at least 2 availability zones in that region.
+* `aws_region` - the region where to launch the cluster in
+* `vpc_cidr` - the cidr for the new VPC
+* `availability_zones` - at least 2 availability zones in that region
+* `public_subnets_cidrs` - cidrs for public subnets (depends on number of availability zones)
+* `private_subnets_cidrs` - cidrs for private subnets
 * `key_name` - the name of the key to use - that key needs to be handy so you can access the machines if needed.
-* `vpc_id` - the ID of the VPC to launch the cluster in.
-* `vpc_subnets` - the private subnet IDs within the VPC. The order in which you type these need to match the order of their availability zones as typed in `availability_zones` above.
 
 The rest of the configurations are mostly around cluster topology and  machine types and sizes.
 
@@ -47,7 +48,7 @@ Two modes of deployment are supported:
 
 At this point we consider the role `ingest` as unanimous with `data`, so all data nodes are also ingest nodes.
 
-The default mode is the single-node mode. To change it to the recommended configuration, edit `variables.tf` and set number of master nodes to 3, data nodes to at least 2, and client nodes to at least 1.
+The default mode is the single-node mode. To change it to the recommended configuration, edit `terraform.tfvars` and set number of master nodes to 3, data nodes to at least 2, and client nodes to at least 1.
 
 All nodes with the `client` role will be attached to an ELB, so access to all client nodes can be done via the DNS it exposes. 
 
